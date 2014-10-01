@@ -1,0 +1,12 @@
+{
+  "name": "express_test",
+  "description": "express test app",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+      "express": "4.3.1",
+      "hbs":"*",
+      "body-parser": "*",
+      "socket.io": "1.0.2"
+  }
+}

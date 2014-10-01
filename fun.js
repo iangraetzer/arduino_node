@@ -1,28 +1,65 @@
-var arduino = require('duino'),
-    board = new arduino.Board();
+var express = require('express');
+var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+var hbs = require('hbs');
+var bodyParser = require('body-parser');
+var arduino = require('duino');
 
-var led = new arduino.Led({
-  board: board,
-  pin: 13
+app.set('view engine', 'html');
+app.engine('html', hbs.__express);
+app.use(bodyParser.json());
+app.use(express.static('public'));
+
+
+app.get('/', function(request, response) {
+    response.render('index');
 });
 
-var bleep = function() {
-    led.on();
-    console.log('led is on');
-    setTimeout(function() {
-        led.off();
-        console.log('led is off');
-    }, 100);
-}
+io.on('connection', function (socket) {
+	console.log('connection');
+    
+   
+    board = new arduino.Board();
 
-    setInterval(bleep, 1000);
-//
-//var http = require('http');
-//http.createServer(function (req, res) {
-//  res.writeHead(200, {'Content-Type': 'text/html'});
-//    res.send('index.html');
+    var led = new arduino.Led({
+      board: board,
+      pin: 8
+    });
+    
+    var led2 = new arduino.Led({
+      board: board,
+      pin: 7
+    });
+
+    var bleep = function() {
+        led.on();
+                
+        setTimeout(function() {
+            led.off();
+        }, 100);
+    }
+    
+    var bleep2 = function() {
+        led2.on();
+        
+        
+        setTimeout(function() {
+            led2.off();
+        }, 100);
+    }
+
+//    setInterval(bleep, 800);
+//    setInterval(bleep2, 850);
 //    
-//}).listen(1337, '127.0.0.1');
-//console.log('Server running at http://127.0.0.1:1337/');
-//
+    socket.on('button_click', function (data) {
+     console.log('button was clicked');
+        bleep();
+   });
+    
+});
+
+http.listen(8080);
+
+
 

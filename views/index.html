@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+
+<html>
+<head>
+<style>
+  
+    
+    #fire-it-up{
+        background: url(../images/fireitup.png);
+        height: 200px;
+        width: 300px;
+        display: block;
+        text-indent: -9999px;
+        margin: 200px auto 0;
+        
+        
+    }
+    
+    </style>
+    
+</head>
+
+    
+    <body>
+        <a id="fire-it-up" href="#">Click me harrrrddddd</a>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io.connect('http://localhost:8080/');  
+            
+            $('#fire-it-up').on('click', function() {
+                socket.emit('button_click');
+            });
+        </script>    
+    </body>
+
+</html>
